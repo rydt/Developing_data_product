@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Titanic disaster</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Titanic disaster">
+  <meta name="author" content="rydt">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Titanic disaster</h1>
+    <h2>Decision tree application</h2>
+    <p>rydt<br/>data scientist</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>My application</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This application allows to perform predictions on the survival of a person in the Titanic. The problem is taken from the kaggle competition in the knowlegde section called: <em>Titanic: Machine Learning from Disaster</em> <a href="https://www.kaggle.com/c/titanic-gettingStarted">https://www.kaggle.com/c/titanic-gettingStarted</a></p>
+
+<p>The prediciton is made using a <strong>decision tree</strong> and the <strong>rpart</strong> library</p>
+
+<p>It&#39;s easy to use:</p>
+
+<ul>
+<li>On the left panel, select the features to predict the survived variable </li>
+<li>Click on submit</li>
+<li>On the right, choose a panel to get a specific view of the results (Tree, summary, CP, confusion matrix)</li>
+<li>Change features, click on submit and see the changes</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>An example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>For the features:</p>
+
+<ul>
+<li>Pclass (passenger class)</li>
+<li>Sex</li>
+<li>Age</li>
+<li>Fare (price of the ticket)</li>
+</ul>
+
+<pre><code class="r">fitTree &lt;- rpart(Survived ~ Pclass + Sex + Age + Fare, data = train, method = &quot;class&quot;)
+prediction &lt;- predict(fitTree, test, type = &quot;class&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Tree and Error</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/unnamed-chunk-2.png" alt="plot of chunk unnamed-chunk-2"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>How well did you predict the end!!</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">table(test$Survived, prediction)
+</code></pre>
+
+<pre><code>##    prediction
+##       0   1
+##   0 117   9
+##   1  31  43
+</code></pre>
+
+<pre><code class="r">precision &lt;- TP/(TP + FP)
+recall &lt;- TP/(TP + FN)
+accuracy &lt;- (TP + TN)/(TP + TN + FP + FN)
+F1 &lt;- (2 * precision * recall)/(precision + recall)
+</code></pre>
+
+<pre><code>## [1] &quot;The model has a precision of 0.88 , a recall of 0.72&quot;
+</code></pre>
+
+<pre><code>## [1] &quot;an accuracy of 0.86 and an F1 score of 0.79&quot;
+</code></pre>
+
+<p><em>Your turn just have fun!!!</em></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='My application'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='An example'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Tree and Error'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='How well did you predict the end!!'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title=''>
+         5
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

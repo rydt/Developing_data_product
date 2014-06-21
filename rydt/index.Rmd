@@ -1,0 +1,91 @@
+---
+title       : Titanic disaster 
+subtitle    : Decision tree application 
+author      : rydt
+job         : data scientist
+framework   : io2012       # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+---
+
+## My application
+This application allows to perform predictions on the survival of a person in the Titanic. The problem is taken from the kaggle competition in the knowlegde section called: *Titanic: Machine Learning from Disaster* https://www.kaggle.com/c/titanic-gettingStarted
+
+The prediciton is made using a **decision tree** and the **rpart** library
+
+It's easy to use:
+
+- On the left panel, select the features to predict the survived variable 
+- Click on submit
+- On the right, choose a panel to get a specific view of the results (Tree, summary, CP, confusion matrix)
+- Change features, click on submit and see the changes
+
+--- .class #id 
+
+## An example
+For the features:
+- Pclass (passenger class)
+- Sex
+- Age
+- Fare (price of the ticket)
+```{r, echo=FALSE}
+library(rpart)
+
+traindf<-read.csv("../data/train.csv",stringsAsFactors=FALSE)
+testdf<-read.csv("../data/test.csv")
+
+train <- traindf[c(1:691),]
+test <-  traindf[c(692:891),]
+
+# test$Survived<-NA
+```
+
+```{r, fit}
+fitTree<-rpart(Survived~ Pclass + Sex + Age + Fare, data = train, method="class")
+prediction <- predict(fitTree,test, type="class")
+
+```
+
+--- .class #id 
+
+
+## Tree and Error
+```{r, echo=FALSE, fig.height=10, fig.width = 10}
+par(mfrow=c(1,2),oma=c(7,2,0,2))
+plot(fitTree, uniform=TRUE, main="Prediction Tree ")
+text(fitTree, use.n=TRUE, all=TRUE, cex=.8)
+
+plotfit <- plotcp(fitTree) # visualize cross-validation results
+```
+
+--- .class #id 
+## How well did you predict the end!!
+```{r, echo=TRUE}
+table(test$Survived,prediction)
+```
+
+```{r, echo=FALSE}
+TN <- table(test$Survived,prediction)[1]
+FN <- table(test$Survived,prediction)[2] 
+FP <- table(test$Survived,prediction)[3]
+TP <- table(test$Survived,prediction)[4]
+```
+
+```{r, echo=TRUE}
+precision <- TP/(TP+FP)
+recall <- TP/(TP+FN)
+accuracy <- (TP+TN)/(TP+TN+FP+FN)
+F1 <- (2*precision * recall)/(precision+recall)
+```
+
+```{r, echo=FALSE}
+paste('The model has a precision of', round(precision,2),', a recall of', round(recall,2))
+paste('an accuracy of', round(accuracy,2),'and an F1 score of', round(F1,2))
+```
+
+*Your turn just have fun!!!*
+
+--- .class #id 
+
