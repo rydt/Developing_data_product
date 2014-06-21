@@ -9,9 +9,10 @@ The application uses the data from the Kaggle contest Titanic Disaster.
 It allows to perform a decision tree by selecting the features in the data.
 The performance of the model are then displayed.
 
-Content of directories:
+Content of directory:
 -------------------------------
-This directory contains 3 sub directories:
-- data provides 2 csv file a train and test set obtained in: *https://www.kaggle.com/c/titanic-gettingStarted*
-- rydt containing the presentation code using slidify
+
+- data provides 2 csv files a train and test set obtained in: *https://www.kaggle.com/c/titanic-gettingStarted*
 - TitanicApp with the ui.R and server.R of the application
+- Assets, figures, library are necessary for the slidfy presentation
+- index.* are used for the presentation
