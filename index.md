@@ -30,60 +30,59 @@ For the features:
 - Sex
 - Age
 - Fare (price of the ticket)
-```{r, echo=FALSE}
-library(rpart)
 
-traindf<-read.csv("../data/train.csv",stringsAsFactors=FALSE)
-testdf<-read.csv("../data/test.csv")
 
-train <- traindf[c(1:691),]
-test <-  traindf[c(692:891),]
 
-# test$Survived<-NA
+
+```r
+fitTree <- rpart(Survived ~ Pclass + Sex + Age + Fare, data = train, method = "class")
+prediction <- predict(fitTree, test, type = "class")
 ```
 
-```{r, fit}
-fitTree<-rpart(Survived~ Pclass + Sex + Age + Fare, data = train, method="class")
-prediction <- predict(fitTree,test, type="class")
-
-```
 
 --- .class #id 
 
 
 ## Tree and Error
-```{r, echo=FALSE, fig.height=10, fig.width = 10}
-par(mfrow=c(1,2),oma=c(7,2,0,2))
-plot(fitTree, uniform=TRUE, main="Prediction Tree ")
-text(fitTree, use.n=TRUE, all=TRUE, cex=.8)
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
 
-plotfit <- plotcp(fitTree) # visualize cross-validation results
-```
 
 --- .class #id 
 ## How well did you predict the end!!
-```{r, echo=TRUE}
-table(test$Survived,prediction)
+
+```r
+table(test$Survived, prediction)
 ```
 
-```{r, echo=FALSE}
-TN <- table(test$Survived,prediction)[1]
-FN <- table(test$Survived,prediction)[2] 
-FP <- table(test$Survived,prediction)[3]
-TP <- table(test$Survived,prediction)[4]
+```
+##    prediction
+##       0   1
+##   0 117   9
+##   1  31  43
 ```
 
-```{r, echo=TRUE}
-precision <- TP/(TP+FP)
-recall <- TP/(TP+FN)
-accuracy <- (TP+TN)/(TP+TN+FP+FN)
-F1 <- (2*precision * recall)/(precision+recall)
+
+
+
+
+
+```r
+precision <- TP/(TP + FP)
+recall <- TP/(TP + FN)
+accuracy <- (TP + TN)/(TP + TN + FP + FN)
+F1 <- (2 * precision * recall)/(precision + recall)
 ```
 
-```{r, echo=FALSE}
-paste('The model has a precision of', round(precision,2),', a recall of', round(recall,2))
-paste('an accuracy of', round(accuracy,2),'and an F1 score of', round(F1,2))
+
+
 ```
+## [1] "The model has a precision of 0.83 , a recall of 0.58"
+```
+
+```
+## [1] "an accuracy of 0.8 and an F1 score of 0.68"
+```
+
 
 *Your turn just have fun!!!*
 
